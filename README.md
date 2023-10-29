@@ -1,4 +1,4 @@
-# Valorant Pipeline (dbt + Airflow)
+# Chess.com Pipeline (dbt + Airflow)
 
 ## Getting Started
 
@@ -22,11 +22,38 @@ docker ps | grep postgres-db
 docker exec -it <container_id> bash
 ```
 
-4. Create a Postgres database
+4. Create a Postgres database and schema
 
 ```shell
-psql
-CREATE DATABASE strava;
+psql -U postgres
+CREATE DATABASE chesscom;
+\c chesscom;
+CREATE SCHEMA source;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA source TO postgres;
+```
+
+### Running data ingestion
+
+1. Add Postgres credentials to `ingestion/.env`
+
+```env
+PG_USERNAME=<username>
+PG_PASSWORD=<password>
+PG_HOST=<host>
+PG_PORT=<port>
+PG_DATABASE=chesscom
+```
+
+2. Install packages
+
+```shell
+pip install -r ingestion/requirements.txt
+```
+
+3. Run ingestion script
+
+```shell
+python ingestion/main.py
 ```
 
 ### Connect to Postgres with dbt
@@ -45,6 +72,6 @@ valorant_dbt_airflow:
       port: 5432
       user: postgres
       password: <password>
-      dbname: strava
-      schema: strava
+      dbname: chesscom
+      schema: source
 ```
