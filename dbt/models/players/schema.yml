@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: current_leaderboard
+    description: "A current list of top players on chess.com."
+    columns:
+      - name: id
+        description: "The primary key for this view, defined as the player URL"
+        tests:
+          - unique
+          - not_null

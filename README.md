@@ -44,19 +44,14 @@ PG_PORT=<port>
 PG_DATABASE=chesscom
 ```
 
-2. Install packages
+2. Build and run Docker container from `ingestion/` directory
 
 ```shell
-pip install -r ingestion/requirements.txt
+docker build -t ingestion .
+
 ```
 
-3. Run ingestion script
-
-```shell
-python ingestion/main.py
-```
-
-### Connect to Postgres with dbt
+### Connecting to Postgres with dbt
 
 1. Navigate to the `dbt/` directory
 
@@ -73,5 +68,19 @@ valorant_dbt_airflow:
       user: postgres
       password: <password>
       dbname: chesscom
-      schema: source
+      schema: curated
+```
+
+### Running dbt data transformation
+
+1. Run dbt from `dbt/` directory
+
+```shell
+dbt run
+```
+
+2. Verify results in a SQL console
+
+```sql
+select * from curated.current_leaderboard;
 ```

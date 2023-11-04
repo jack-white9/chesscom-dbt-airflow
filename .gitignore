@@ -1,2 +1,11 @@
 .env
 profiles.yml
+.venv/
+target/
+dbt_modules/
+dbt_packages/
+logs/
+venv/
+env/
+__pycache__
+.user.yml
